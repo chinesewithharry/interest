@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ChineseWithHarry — Help train an AI that teaches Chinese</title>
+<meta name="description" content="We're building an AI that listens to your Mandarin and tells you how you're doing. Help us train it — get free access when we launch." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f1e9d8;
+    --bg-warm: #ede4d0;
+    --ink: #1a1814;
+    --ink-soft: #4a423a;
+    --ink-muted: #8a7f70;
+    --accent: #b8392a;
+    --accent-deep: #8f2a1f;
+    --line: #d4c8af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Subtle grain overlay for warmth */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.05 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  /* Giant decorative character */
+  .watermark {
+    position: fixed;
+    top: 50%;
+    right: -8vw;
+    transform: translateY(-50%);
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 56vw;
+    color: var(--accent);
+    opacity: 0.06;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Header */
+  header {
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 80px;
+  }
+
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .dot {
+    color: var(--accent);
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 40px 0 100px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    animation: fadeUp 0.9s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-bottom: 32px;
+    max-width: 14ch;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  h1 .zh {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .lede {
+    font-size: 21px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+
+  /* CTA */
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 20px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::after {
+    content: '→';
+    transition: transform 0.25s ease;
+    font-size: 18px;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .btn:hover::after {
+    transform: translateX(4px);
+  }
+
+  .cta-note {
+    font-size: 14px;
+    color: var(--ink-muted);
+    max-width: 28ch;
+  }
+
+  /* Divider section */
+  .divider {
+    border-top: 1px solid var(--line);
+    margin: 60px 0;
+    position: relative;
+  }
+
+  .divider::before {
+    content: '◆';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    padding: 0 16px;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  /* Two-column info */
+  .roles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    padding: 20px 0 100px;
+  }
+
+  .role {
+    position: relative;
+  }
+
+  .role-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .role h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .role h2 .zh {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 500;
+    color: var(--accent);
+    margin-right: 8px;
+  }
+
+  .role p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .role .count {
+    display: inline-block;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 6px 12px;
+    border-radius: 2px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-muted);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer .zh-mark {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--accent);
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .container { padding: 0 24px; }
+    header { margin-bottom: 40px; padding: 24px 0; }
+    .hero { padding: 20px 0 60px; }
+    .lede { font-size: 18px; margin-bottom: 36px; }
+    .roles {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 0 0 60px;
+    }
+    .btn { padding: 18px 26px; font-size: 15px; }
+    .watermark { font-size: 90vw; right: -20vw; }
+    .cta-row { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="watermark" aria-hidden="true">语</div>
+
+<div class="container">
+
+  <header>
+    <div class="brand">Chinese<span class="dot">·</span>with<span class="dot">·</span>Harry</div>
+    <div class="meta">Beta · 2026</div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Now recruiting</div>
+      <h1>
+        Help us teach an AI to <em>listen</em> to <span class="zh">中文</span>.
+      </h1>
+      <p class="lede">
+        We're building a Mandarin learning app with an AI tutor that hears how you speak — and tells you, kindly, where you can do better. To train it well, we need real voices: British Chinese speakers, and native judges to grade them.
+      </p>
+
+      <div class="cta-row">
+        <!-- Replace the href below with your Google Form link -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdQCObBoaDeoqpX07boW_JyVwcCVWwPz2oCdA9NMJkGuuBU9g/viewform?usp=sharing&ouid=100904261630199133834" class="btn" target="_blank" rel="noopener">
+          Sign up to take part
+        </a>
+        <p class="cta-note">
+          One short form — works for both speakers and judges.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="roles">
+    <div class="role">
+      <span class="role-num">i.</span>
+      <h2><span class="zh">说</span>British Chinese speakers</h2>
+      <p>
+        Record short Mandarin clips so our AI can learn what real learners sound like. In return, you get free access to the app when it launches.
+      </p>
+      <span class="count">25 spots</span>
+    </div>
+
+    <div class="role">
+      <span class="role-num">ii.</span>
+      <h2><span class="zh">听</span>Native Chinese judges</h2>
+      <p>
+        Listen to recorded clips and rate the speaker's pronunciation, tones and fluency. Your ear teaches the model what 'good' sounds like.
+      </p>
+      <span class="count">3 spots</span>
+    </div>
+  </section>
+
+  <footer>
+    <div><span class="zh-mark">哈</span>ChineseWithHarry · A small project, made with care.</div>
+    <div>Questions? <a href="mailto:chinesewithharry@gmail.com" style="color:var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px;">Get in touch</a></div>
+  </footer>
+
+</div>
+
+</body>
+</html>
