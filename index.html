@@ -37,7 +37,6 @@
     min-height: 100vh;
   }
 
-  /* Subtle grain overlay for warmth */
   body::before {
     content: '';
     position: fixed;
@@ -49,7 +48,6 @@
     z-index: 1;
   }
 
-  /* Giant decorative character */
   .watermark {
     position: fixed;
     top: 50%;
@@ -74,7 +72,6 @@
     padding: 0 32px;
   }
 
-  /* Header */
   header {
     padding: 32px 0;
     display: flex;
@@ -103,7 +100,6 @@
     font-weight: 500;
   }
 
-  /* Hero */
   .hero {
     padding: 40px 0 100px;
     display: grid;
@@ -167,7 +163,6 @@
     font-weight: 400;
   }
 
-  /* CTA */
   .cta-row {
     display: flex;
     align-items: center;
@@ -213,7 +208,15 @@
     max-width: 28ch;
   }
 
-  /* Divider section */
+  .cta-disclaimer {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    max-width: 60ch;
+    line-height: 1.55;
+    opacity: 0.85;
+  }
+
   .divider {
     border-top: 1px solid var(--line);
     margin: 60px 0;
@@ -232,7 +235,6 @@
     font-size: 14px;
   }
 
-  /* Two-column info */
   .roles {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -289,17 +291,28 @@
     border-radius: 2px;
   }
 
-  /* Footer */
   footer {
     border-top: 1px solid var(--line);
     padding: 32px 0 40px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  .footer-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-    color: var(--ink-muted);
     flex-wrap: wrap;
     gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .footer-legal {
+    font-size: 11px;
+    color: var(--ink-muted);
+    opacity: 0.75;
+    line-height: 1.7;
+    max-width: 920px;
   }
 
   footer .zh-mark {
@@ -309,7 +322,6 @@
     margin-right: 6px;
   }
 
-  /* Mobile */
   @media (max-width: 720px) {
     .container { padding: 0 24px; }
     header { margin-bottom: 40px; padding: 24px 0; }
@@ -323,6 +335,8 @@
     .btn { padding: 18px 26px; font-size: 15px; }
     .watermark { font-size: 90vw; right: -20vw; }
     .cta-row { gap: 18px; }
+    .cta-disclaimer { font-size: 12px; }
+    .footer-legal { font-size: 10px; }
   }
 </style>
 </head>
@@ -348,7 +362,6 @@
       </p>
 
       <div class="cta-row">
-        <!-- Replace the href below with your Google Form link -->
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdQCObBoaDeoqpX07boW_JyVwcCVWwPz2oCdA9NMJkGuuBU9g/viewform?usp=sharing&ouid=100904261630199133834" class="btn" target="_blank" rel="noopener">
           Join the journey
         </a>
@@ -356,6 +369,10 @@
           One short form — works for both speakers and judges.
         </p>
       </div>
+
+      <p class="cta-disclaimer">
+        By signing up you'll share your contact details with Tonelet Ltd (trading as Chinese with Harry) so we can contact you about taking part in our research. Full privacy details are inside the sign-up form. You can withdraw at any time.
+      </p>
     </div>
   </section>
 
@@ -368,7 +385,6 @@
       <p>
         Record short Mandarin clips so our AI can learn what real learners sound like. In return, you get free access to the app when it launches.
       </p>
-      
     </div>
 
     <div class="role">
@@ -377,13 +393,17 @@
       <p>
         Listen to recorded clips and rate the speaker's pronunciation, tones and fluency. Your ear teaches the model what 'good' sounds like.
       </p>
-      
     </div>
   </section>
 
   <footer>
-    <div><span class="zh-mark">哈利</span>ChineseWithHarry</div>
-    <div>Questions? <a href="mailto:chinesewithharry@gmail.com" style="color:var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px;">Get in touch</a></div>
+    <div class="footer-main">
+      <div><span class="zh-mark">哈利</span>ChineseWithHarry</div>
+      <div>Questions? <a href="mailto:chinesewithharry@gmail.com" style="color:var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px;">Get in touch</a></div>
+    </div>
+    <div class="footer-legal">
+      Chinese with Harry is a trading name of Tonelet Ltd, a company registered in England and Wales (company number 17228833). Registered office: 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ. Registered with the Information Commissioner's Office (registration: pending). © 2026 Tonelet Ltd. All rights reserved.
+    </div>
   </footer>
 
 </div>
